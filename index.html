@@ -7,47 +7,81 @@
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #eef2f3; 
+            background-color: #1b4d3e; 
             margin: 0; 
             padding: 20px; 
             color: #333; 
         }
+
+        /* ----- ECK-NAMEN ----- */
+        .corner-name {
+            position: absolute;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.1em;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border-left: 4px solid #f1c40f;
+        }
+        .top-left { top: 20px; left: 20px; }
+        .top-right { top: 20px; right: 20px; }
+        .bottom-left { bottom: 20px; left: 20px; }
+        .bottom-right { bottom: 20px; right: 20px; }
+
+        /* ----- HAUPT-CONTAINER ----- */
         .wrapper { 
-            max-width: 600px; 
-            margin: 0 auto; 
-            background: #fff; 
-            padding: 30px; 
+            max-width: 500px; 
+            margin: 80px auto; 
+            background: #ffffff; 
+            padding: 25px; 
             border-radius: 12px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
         }
         h1 { 
             text-align: center; 
-            color: #1e3c72; 
+            color: #1b4d3e; 
             margin-top: 0; 
+            font-size: 1.8em;
         }
         .info { 
             text-align: center; 
-            color: #666; 
+            color: #555; 
             font-size: 0.9em; 
-            margin-bottom: 30px; 
+            margin-bottom: 25px; 
         }
-        .form-group { 
-            margin-bottom: 20px; 
+        
+        /* Das Namensfeld */
+        .name-box { 
+            background: #fdfaf0;
+            padding: 20px;
+            border: 2px dashed #f1c40f;
+            border-radius: 8px;
+            text-align: center;
         }
-        label { 
-            display: block; 
-            font-weight: bold; 
-            margin-bottom: 5px; 
-            color: #2c3e50; 
+        .name-box label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.1em;
         }
-        input[type="text"] { 
+        .name-box input {
             width: 100%; 
-            padding: 10px; 
+            padding: 12px; 
             border: 2px solid #bdc3c7; 
             border-radius: 6px; 
             font-size: 1em; 
-            box-sizing: border-box; 
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            text-align: center;
         }
+
+        /* Spiele-Bereich (wird am Anfang versteckt) */
+        #tipp-bereich {
+            display: none;
+        }
+
+        /* Spiele-Karten */
         .match-card { 
             background: #f8f9fa; 
             border: 1px solid #e2e8f0; 
@@ -60,7 +94,6 @@
             font-weight: bold; 
             color: #2c3e50; 
             margin-bottom: 10px; 
-            font-size: 1.05em; 
         }
         .tipp-row { 
             display: flex; 
@@ -68,16 +101,10 @@
             align-items: center; 
             gap: 10px; 
         }
-        .team-label { 
-            width: 40%; 
-            font-size: 0.95em; 
-        }
-        .team-left { 
-            text-align: right; 
-        }
-        .team-right { 
-            text-align: left; 
-        }
+        .team-label { width: 40%; font-size: 0.85em; }
+        .team-left { text-align: right; }
+        .team-right { text-align: left; }
+        
         input[type="number"] { 
             width: 50px; 
             padding: 8px; 
@@ -86,9 +113,10 @@
             text-align: center; 
             font-size: 1.1em; 
         }
-        button { 
+        
+        .btn { 
             width: 100%; 
-            background: linear-gradient(135deg, #1e3c72, #2a5298); 
+            background: #1b4d3e; 
             color: white; 
             border: none; 
             padding: 14px; 
@@ -96,54 +124,234 @@
             font-weight: bold; 
             border-radius: 6px; 
             cursor: pointer; 
-            margin-top: 20px; 
-            transition: background 0.3s; 
+            margin-top: 10px; 
         }
-        button:hover { 
-            background: #1a3362; 
+        .btn-weiter {
+            background: #f1c40f;
+            color: #1b4d3e;
         }
     </style>
 </head>
 <body>
+
+    <div class="corner-name top-left">Marina ⚽</div>
+    <div class="corner-name top-right">Jeremy ⚽</div>
+    <div class="corner-name bottom-left">Bubu ⚽</div>
+    <div class="corner-name bottom-right">Dudu ⚽</div>
+
     <div class="wrapper">
         <h1>🏆 WM 2026 Tippspiel</h1>
-        <p class="info">Trage deinen Namen ein und tippe die K.O.-Runde. Nach dem Absenden erhält der Spielleiter deine Tipps!</p>
+        <p class="info">Trage deinen Namen ein und tippe die K.O.-Runde!</p>
         
-        <form action="https://formspree.io/f/DEINE_FORMSPREE_ID_HIER" method="POST">
+        <div id="name-bereich" class="name-box">
+            <label for="nameInput">Bitte gib zuerst deinen Namen ein:</label>
+            <input type="text" id="nameInput" placeholder="Dein Name..." required onkeydown="if(event.key === 'Enter') { zeigeSpiele(); }">
+            <button type="button" class="btn btn-weiter" onclick="zeigeSpiele()">Weiter zum Tippen →</button>
+        </div>
+        
+        <div id="tipp-bereich">
             
-            <div class="form-group">
-                <label for="name">Dein Vor- und Nachname:</label>
-                <input type="text" id="name" name="Spielername" placeholder="z.B. Max Mustermann" required>
-            </div>
-            
-            <hr style="border: 0; height: 1px; background: #e2e8f0; margin: 25px 0;">
-            
-            <h2 style="font-size: 1.2em; color: #1e3c72; margin-bottom: 15px;">Sechzehntelfinale</h2>
-            
-            <div class="match-card">
-                <div class="match-title">Spiel 1</div>
-                <div class="tipp-row">
-                    <span class="team-label team-left">Kanada 🇨🇦</span>
-                    <input type="number" name="Tipp_Spiel1_Kanada" min="0" max="99" required>
-                    <span>:</span>
-                    <input type="number" name="Tipp_Spiel1_Suedafrika" min="0" max="99" required>
-                    <span class="team-label team-right">🇿🇦 Südafrika</span>
+            <form action="https://formspree.io/f/mqevbrae" method="POST">
+                
+                <input type="hidden" id="finalName" name="Spielername">
+
+                <h2 style="font-size: 1.2em; color: #1b4d3e; margin-bottom: 15px; text-align: center;">Sechzehntelfinale (Runde der letzten 32)</h2>
+                
+                <div class="match-card">
+                    <div class="match-title">Spiel 1</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Kanada 🇨🇦</span>
+                        <input type="number" name="Tipp_Spiel1_Kanada" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel1_Suedafrika" min="0" max="99" required>
+                        <span class="team-label team-right">🇿🇦 Südafrika</span>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="match-card">
-                <div class="match-title">Spiel 2</div>
-                <div class="tipp-row">
-                    <span class="team-label team-left">Deutschland 🇩🇪</span>
-                    <input type="number" name="Tipp_Spiel2_Deutschland" min="0" max="99" required>
-                    <span>:</span>
-                    <input type="number" name="Tipp_Spiel2_Paraguay" min="0" max="99" required>
-                    <span class="team-label team-right">🇵🇾 Paraguay</span>
+                
+                <div class="match-card">
+                    <div class="match-title">Spiel 2</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Deutschland 🇩🇪</span>
+                        <input type="number" name="Tipp_Spiel2_Deutschland" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel2_Paraguay" min="0" max="99" required>
+                        <span class="team-label team-right">🇵🇾 Paraguay</span>
+                    </div>
                 </div>
-            </div>
-            
-            <button type="submit">🚀 Meine Tipps verbindlich absenden</button>
-        </form>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 3</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe A</span>
+                        <input type="number" name="Tipp_Spiel3_SiegerA" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel3_DritterCDE" min="0" max="99" required>
+                        <span class="team-label team-right">Dritter Gr. C/D/E</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 4</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Zweiter Gruppe A</span>
+                        <input type="number" name="Tipp_Spiel4_ZweiterA" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel4_ZweiterB" min="0" max="99" required>
+                        <span class="team-label team-right">Zweiter Gruppe B</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 5</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe B</span>
+                        <input type="number" name="Tipp_Spiel5_SiegerB" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel5_DritterAFG" min="0" max="99" required>
+                        <span class="team-label team-right">Dritter Gr. A/F/G</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 6</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe C</span>
+                        <input type="number" name="Tipp_Spiel6_SiegerC" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel6_DritterFGH" min="0" max="99" required>
+                        <span class="team-label team-right">Dritter Gr. F/G/H</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 7</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Zweiter Gruppe C</span>
+                        <input type="number" name="Tipp_Spiel7_ZweiterC" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel7_ZweiterD" min="0" max="99" required>
+                        <span class="team-label team-right">Zweiter Gruppe D</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 8</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe D</span>
+                        <input type="number" name="Tipp_Spiel8_SiegerD" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel8_DritterBHI" min="0" max="99" required>
+                        <span class="team-label team-right">Dritter Gr. B/H/I</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 9</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe E</span>
+                        <input type="number" name="Tipp_Spiel9_SiegerE" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel9_DritterIJK" min="0" max="99" required>
+                        <span class="team-label team-right">Dritter Gr. I/J/K</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 10</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Zweiter Gruppe E</span>
+                        <input type="number" name="Tipp_Spiel10_ZweiterE" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel10_ZweiterF" min="0" max="99" required>
+                        <span class="team-label team-right">Zweiter Gruppe F</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 11</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe F</span>
+                        <input type="number" name="Tipp_Spiel11_SiegerF" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel11_DritterCKL" min="0" max="99" required>
+                        <span class="team-label team-right">Dritter Gr. C/K/L</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 12</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe G</span>
+                        <input type="number" name="Tipp_Spiel12_SiegerG" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel12_DritterABC" min="0" max="99" required>
+                        <span class="team-label team-right">Dritter Gr. A/B/C</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 13</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Zweiter Gruppe G</span>
+                        <input type="number" name="Tipp_Spiel13_ZweiterG" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel13_ZweiterH" min="0" max="99" required>
+                        <span class="team-label team-right">Zweiter Gruppe H</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 14</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe H</span>
+                        <input type="number" name="Tipp_Spiel14_SiegerH" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel14_ZweiterI" min="0" max="99" required>
+                        <span class="team-label team-right">Zweiter Gruppe I</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 15</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe I</span>
+                        <input type="number" name="Tipp_Spiel15_SiegerI" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel15_ZweiterJ" min="0" max="99" required>
+                        <span class="team-label team-right">Zweiter Gruppe J</span>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-title">Spiel 16</div>
+                    <div class="tipp-row">
+                        <span class="team-label team-left">Sieger Gruppe J</span>
+                        <input type="number" name="Tipp_Spiel16_SiegerJ" min="0" max="99" required>
+                        <span>:</span>
+                        <input type="number" name="Tipp_Spiel16_ZweiterK" min="0" max="99" required>
+                        <span class="team-label team-right">Zweiter Gruppe K</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">🚀 Alle Tipps absenden</button>
+            </form>
+        </div>
     </div>
+
+    <script>
+        function zeigeSpiele() {
+            var nameInputValue = document.getElementById('nameInput').value;
+            
+            if (nameInputValue.trim() === "") {
+                alert("Bitte trag zuerst deinen Namen ein!");
+                return;
+            }
+            
+            document.getElementById('finalName').value = nameInputValue;
+            document.getElementById('name-bereich').style.display = 'none';
+            document.getElementById('tipp-bereich').style.display = 'block';
+        }
+    </script>
+
 </body>
 </html>
