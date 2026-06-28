@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WM 2026 K.O.-Tippspiel</title>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background-color: #eef2f3; margin: 0; padding: 20px; color: #333; }
+.wrapper { max-width: 600px; margin: 0 auto; background: #fff; padding: 30px;
+border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+h1 { text-align: center; color: #1e3c72; margin-top: 0; }
+.info { text-align: center; color: #666; font-size: 0.9em; margin-bottom:
+30px; }
+.form-group { margin-bottom: 20px; }
+label { display: block; font-weight: bold; margin-bottom: 5px; color:
+#2c3e50; }
+input[type="text"] { width: 100%; padding: 10px; border: 2px solid #bdc3c7;
+border-radius: 6px; font-size: 1em; box-sizing: border-box; }
+.match-card { background: #f8f9fa; border: 1px solid #e2e8f0; padding: 15px;
+border-radius: 8px; margin-bottom: 15px; text-align: center; }
+
+.match-title { font-weight: bold; color: #2c3e50; margin-bottom: 10px; font-
+size: 1.05em; }
+
+.tipp-row { display: flex; justify-content: center; align-items: center; gap:
+10px; }
+
+Schritt-für-Schritt-Leitfaden für HTML + Formspree + GitHub Pages
+
+1.
+
+2.
+
+3.
+
+.team-label { width: 40%; font-size: 0.95em; }
+.team-left { text-align: right; }
+.team-right { text-align: left; }
+input[type="number"] { width: 50px; padding: 8px; border: 2px solid #cbd5e1;
+border-radius: 6px; text-align: center; font-size: 1.1em; }
+button { width: 100%; background: linear-gradient(135deg, #1e3c72, #2a5298);
+
+color: white; border: none; padding: 14px; font-size: 1.1em; font-weight: bold; border-
+radius: 6px; cursor: pointer; margin-top: 20px; transition: background 0.3s; }
+
+button:hover { background: #1a3362; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<h1> WM 2026 Tippspiel</h1>
+<p class="info">Trage deinen Namen ein und tippe die K.O.-Runde. Nach dem
+Absenden erhält der Spielleiter deine Tipps!</p>
+<form action="https://formspree.io/f/https://formspree.io/f/mqevbrae" method="POST">
+<div class="form-group">
+<label for="name">Dein Vor- und Nachname:</label>
+<input type="text" id="name" name="Spielername" placeholder="z.B. Max
+Mustermann" required>
+</div>
+<hr style="border: 0; height: 1px; background: #e2e8f0; margin: 25px 0;">
+<h2 style="font-size: 1.2em; color: #1e3c72; margin-bottom:
+15px;">Sechzehntelfinale</h2>
+<!-- Spiel 1 -->
+<div class="match-card">
+<div class="match-title">Spiel 1</div>
+<div class="tipp-row">
+<span class="team-label team-left">Kanada </span>
+<input type="number" name="Tipp_Spiel1_Kanada" min="0" max="99"
+required>
+<span>:</span>
+<input type="number" name="Tipp_Spiel1_Suedafrika" min="0" max="99"
+required>
+<span class="team-label team-right"> Südafrika</span>
+</div>
+</div>
+<!-- Spiel 2 -->
+<div class="match-card">
+<div class="match-title">Spiel 2</div>
+<div class="tipp-row">
+<span class="team-label team-left">Deutschland </span>
+<input type="number" name="Tipp_Spiel2_Deutschland" min="0"
+max="99" required>
+<span>:</span>
+<input type="number" name="Tipp_Spiel2_Paraguay" min="0" max="99"
+required>
+<span class="team-label team-right"> Paraguay</span>
+</div>
+</div>
+<!-- Du kannst hier nach demselben Muster weitere Match-Cards für die
+
+restlichen Spiele hinzufügen -->
+<button type="submit"> Meine Tipps verbindlich absenden</button>
+</form>
+</div>
+</body>
+</html>
